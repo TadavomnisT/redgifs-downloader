@@ -1,15 +1,24 @@
 > # Checkout this [redgifs](https://github.com/scrazzz/redgifs) library, it has even more features and is up-to-date.
 
-## redgifs-dl
+# redgifs-dl
 A command line tool to download videos from redgifs.com
 
-# Installation
+## Installation
 
 ```shell
-git clone https://github.com/boobfuck/redgifs-dl/blob/main/redgifs.py
+git clone https://github.com/clawknot/redgifs.git
+cd redgifs
 chmod +x redgifs.py
 ./redgifs
 ```
+or
+```shell
+wget https://raw.githubusercontent.com/clawknot/redgifs/main/redgifs.py
+python redgifs.py
+```
+
+## Usage:
+
 ```console
 usage: redgifs.py [-h] [-f] [-q | -w  | -ns]
                   [url]
