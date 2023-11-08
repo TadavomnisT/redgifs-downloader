@@ -85,7 +85,7 @@ def get_content(url, no_save):
     url = check_url(url)
     headers = {'User-Agent': 'Mozilla/5.0'}
     request_url = Request(url, headers=headers)
-    CONTENT_RE = re.compile(r'https:\/\/[a-z0-9]+.redgifs.com\/\w+.mp4')
+    CONTENT_RE = re.compile(r'https://api\.redgifs\.com/v2/gifs/[\w-]+/files/[\w-]+\.mp4')
 
     vprint('\n[v] Sending request to', url)
     with urlopen(request_url) as response:
