@@ -4,14 +4,14 @@ A command line tool to download videos from redgifs.com
 ## Installation
 
 ```shell
-git clone https://github.com/clawknot/redgifs.git
+git clone https://github.com/TadavomnisT/redgifs-downloader.git
 cd redgifs
 chmod +x redgifs.py
 ./redgifs
 ```
 or
 ```shell
-wget https://raw.githubusercontent.com/clawknot/redgifs/main/redgifs.py
+wget https://raw.githubusercontent.com/TadavomnisT/redgifs-downloader/main/redgifs.py
 python redgifs.py
 ```
 
