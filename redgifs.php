@@ -182,7 +182,8 @@ optional arguments:
 /* ----------------------------------- Telegram Bot ----------------------------------- */
 
 // get Token from @BotFather
-define("TOKEN", "<Your Token>");
+// define("TOKEN", "<Your Token>");
+define("TOKEN", "5981824622:AAGI5xtnXAXk-VHfnFb8XrV1b8O7Lm46vBk");
 
 $bot = new Telebot(TOKEN, false);
 
@@ -190,11 +191,15 @@ function extract_links($text, $entities) {
   $links = [];
 
   foreach ($entities as $entity) {
-    if ($entity['type'] == 'text_link') {
-      $links[] = $entity['url'];
-    } elseif ($entity['type'] == 'text_mention') {
-      $links[] = $entity['url'];
-    } elseif ($entity['type'] == 'url') {
+    if (($entity['type'] ?? '') == 'text_link') {
+      try {
+        $links[] = check_url($entity['url']);
+      } catch (\TypeError $e) { }
+    } elseif (($entity['type'] ?? '') == 'text_mention') {
+      try {
+        $links[] = check_url($entity['url']);
+      } catch (\TypeError $e) { }
+    } elseif (($entity['type'] ?? '') == 'url') {
       $start = $entity['offset'];
       $length = $entity['length'];
       $link = substr($text, $start, $length);
@@ -215,22 +220,23 @@ $bot->on('*', function($type, $data) use ($bot) {
   $message_id = $data['message_id'] ?? -1;
   $text = $data['text'] ?? '';
 
-  $entities = $data['entities'] ?? [[]];
+  $entities = $data['entities'] ?? [];
   $links = extract_links($text, $entities);
-  if ($type == 'text' && !empty($links)) {
+  if ($type == 'text' && $links != []) {
     $msg_ids = [];
     foreach ($links as $link) {
       try {
         $video = get_content($link);
-        $_msg = $bot->sendVideo(['chat_id'=> $chat_id, 'video'=> $video, 'caption'=> "Save it in **saved messages**.\nBecause it will be deleted in 30s", 'parse_mode'=> 'Markdown', 'reply_to_message_id'=> $message_id]);
-        $msg_ids[] = $_msg['result']['message_id'];
-        sleep(0.2);
+        $_msg = $bot->sendVideo(['chat_id'=> $chat_id, 'video'=> "$video", 'caption'=> "Save it in **saved messages**.\nBecause it will be deleted in 30s", 'parse_mode'=> 'Markdown', 'reply_to_message_id'=> $message_id]);
+        $mid = $_msg['result']['message_id'] ?? -1;
+        $msg_ids[] = $mid;
+        $bot->sendMessage(['chat_id'=> $chat_id, 'text'=> 'Have a hot story 😋', 'reply_markup'=> Telebot::inline_keyboard("[Open on Browser|url:$video]"), 'reply_to_message_id'=> $mid]);
       } catch (\TypeError $e) { }
       sleep(28);
       foreach ($msg_ids as $mid) $bot->deleteMessage(['chat_id'=> $chat_id, 'message_id'=> $mid]);
     }
   } else {
-    $bot->sendMessage(['chat_id'=> $chat_id, 'text'=> "Send me links of your favorite videos 🔥", 'reply_to_message_id'=> $message_id]);
+    $bot->sendMessage(['chat_id'=> $chat_id, 'text'=> "Send me links of your favorite videos ðŸ”¥", 'reply_to_message_id'=> $message_id]);
   }
 });  
 
