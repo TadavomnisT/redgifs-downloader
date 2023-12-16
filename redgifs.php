@@ -236,7 +236,7 @@ $bot->on('*', function($type, $data) use ($bot) {
       foreach ($msg_ids as $mid) $bot->deleteMessage(['chat_id'=> $chat_id, 'message_id'=> $mid]);
     }
   } else {
-    $bot->sendMessage(['chat_id'=> $chat_id, 'text'=> "Send me links of your favorite videos ðŸ”¥", 'reply_to_message_id'=> $message_id]);
+    $bot->sendMessage(['chat_id'=> $chat_id, 'text'=> "Send me links of your favorite videos 🔥", 'reply_to_message_id'=> $message_id]);
   }
 });  
 
